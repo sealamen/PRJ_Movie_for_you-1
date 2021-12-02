@@ -41,8 +41,8 @@ try:
                 driver.find_element_by_xpath(movie_title_xpath).click()
                 review_page_url = driver.find_element_by_xpath(review_button_xpath).get_attribute('href')
                 driver.get(review_page_url)
-                review_range = driver.find_element_by_xpath(review_number_xpath).text.replace(',', '')
-                review_range = review_range
+                review_range = driver.find_element_by_xpath(review_number_xpath).text
+                review_range = review_range.replace(',', '')
                 review_range = int(review_range)
                 review_range = review_range // 10 + 2
                 if review_range > 6: review_range = 6
