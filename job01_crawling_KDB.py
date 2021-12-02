@@ -35,33 +35,37 @@ review_number_xpath = '//*[@id="reviewTab"]/div/div/div[2]/span/em'
 
 for i in range(1, 38):  # 페이지
     url = 'https://movie.naver.com/movie/sdb/browsing/bmovie.naver?open=2020&page={}'.format(i)
-    driver.get(url)
     for j in range(1, 21):  # 한페이지 최대 타이틀
         try:
+            driver.get(url)
             movie_title_xpath = '//*[@id="old_content"]/ul/li[{}]/a'.format(j)
             title = driver.find_element_by_xpath(movie_title_xpath).text
             print("+++++++++++++++++++++++++++++++++++++++++++++++++")
             print("title :", title)
-            titles.append(title)
             driver.find_element_by_xpath(movie_title_xpath).click()
             # driver.find_element_by_xpath(review_button_xpath).click()
             review_page_url = driver.find_element_by_xpath(review_button_xpath).get_attribute('href')
             driver.get(review_page_url)
+            time.sleep(0.05)
             review_range = driver.find_element_by_xpath(review_number_xpath).text
             review_range = int(review_range.replace(',', '')) // 10 + 2
+            print("------review-------")
             for k in range(1, review_range):  # 리뷰페이지
                 driver.get(review_page_url + '&page={}'.format(k))
+                time.sleep(0.05)
                 for l in range(1, 11):  # 한페이지 최대 리뷰
                     review_title_xpath = '//*[@id="reviewTab"]/div/div/ul/li[{}]/a/strong'.format(l)
                     try:
                         driver.find_element_by_xpath(review_title_xpath).click()
                         time.sleep(0.05)
                         review = driver.find_element_by_xpath('//*[@id="content"]/div[1]/div[4]/div[1]/div[4]').text
-                        print("------")
-                        print("review :", review[-100:-50])
+                        print(review[-20:])
+                        titles.append(title)  # 에러났을때를 대비하여 append를 몰아둔다.
+                        reviews.append(review)
+                        print("===")
                         driver.back()
                     except:
-                        print('no review')
+                        print("{}페이지 {} 번째 review가 없습니다".format(k, l))
                         driver.get(url)
                         break
         except:
