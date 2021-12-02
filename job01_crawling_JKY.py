@@ -29,41 +29,46 @@ reviews = []
 # //*[@id="content"]/div[1]/div[4]/div[1]/div[4]        # class:user_tx_area
 
 
-review_button_xpath = '//*[@id="movieEndTabMenu"]/li[6]/a/em'
+review_button_xpath = '//*[@id="movieEndTabMenu"]/li[6]/a'
 review_number_xpath = '//*[@id="reviewTab"]/div/div/div[2]/span/em'
 
 for i in range(1, 38):
     url = 'https://movie.naver.com/movie/sdb/browsing/bmovie.naver?open=2020&page={}'.format(i)
-    try:
-        driver.get(url)
-        for j in range(1, 21):
+
+    for j in range(1, 21):
+        try:
+            driver.get(url)
             movie_title_xpath = '//*[@id="old_content"]/ul/li[{}]/a'.format(j)
             title = driver.find_element_by_xpath(movie_title_xpath).text
-            print(title)
-            titles.append(title)
             driver.find_element_by_xpath(movie_title_xpath).click()
-            driver.find_element_by_xpath(review_button_xpath).click()
+            review_page_url = driver.find_element_by_xpath(review_button_xpath).get_attribute('href')
+            driver.get(review_page_url)
             review_range = driver.find_element_by_xpath(review_number_xpath).text.replace(',', '')
             review_range = review_range
             review_range = int(review_range)
             review_range = review_range // 10 + 2
             for k in range(1, review_range):
-                review_page_url = driver.find_element_by_xpath('//*[@id="movieEndTabMenu"]/li[6]/a').get_attribute('href')
                 driver.get(review_page_url + '&page={}'.format(k))
+                #time.sleep(0.3)
                 for l in range(1, 11):
                     review_title_xpath = '//*[@id="reviewTab"]/div/div/ul/li[{}]/a/strong'.format(l)
                     try:
                         driver.find_element_by_xpath(review_title_xpath).click()
+                        #time.sleep(0.3)
                         review = driver.find_element_by_xpath('//*[@id="content"]/div[1]/div[4]/div[1]/div[4]').text
                         print('===================== =====================')
+                        print(title)
                         print(review)
+                        titles.append(title)
+                        reviews.append(review)
                         driver.back()
                     except:
+                        print(l, '번째 review가 없다.')
                         driver.get(url)
                         break
 
-    except:
-        print('error')
+        except:
+            print('error')
 
 
 
