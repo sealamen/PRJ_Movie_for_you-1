@@ -7,3 +7,7 @@
 # 파일명은 "reviews_{}.csv".format(연도) 해주세요.
 # 크롤링한 데이터 파일은 아래 링크로 올려주세요
 # https://drive.google.com/drive/folders/1mapy5M7_0RH54bFMuKNP_6NQPGWAVr9W?usp=sharing
+
+
+# 영준님 2017 / 장일님 2021 / 지수님 2016 / 지석님 2018 / 동빈 2019
+# 연도 별로 콘캣해주세요~
