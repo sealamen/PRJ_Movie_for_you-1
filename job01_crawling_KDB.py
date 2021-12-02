@@ -27,7 +27,6 @@ driver = webdriver.Chrome('./chromedriver.exe', options=options)
 # //*[@id="content"]/div[1]/div[4]/div[1]/div[4]        # class:user_tx_area
 
 review_button_xpath = '//*[@id="movieEndTabMenu"]/li[6]/a'
-
 review_number_xpath = '//*[@id="reviewTab"]/div/div/div[2]/span/em'
 try:
     for i in range(1, 44):  # 페이지
