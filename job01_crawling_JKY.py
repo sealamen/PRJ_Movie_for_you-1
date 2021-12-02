@@ -22,13 +22,14 @@ driver = webdriver.Chrome('./chromedriver', options=options)
 # //*[@id="pagerTagAnchor1"]   리뷰 페이지 버튼
 # //*[@id="pagerTagAnchor10"]/em   리뷰 다음 페이지 버튼
 # //*[@id="reviewTab"]/div/div/ul/li[1]/a/strong 리뷰 제목
+
 # //*[@id="SE-ec9bce5c-9be3-47a9-9957-b075426d88fb"] 리뷰 한 줄
 # //*[@id="content"]/div[1]/div[4]/div[1]/div[4]        # class:user_tx_area
 
 review_button_xpath = '//*[@id="movieEndTabMenu"]/li[6]/a'
 review_number_xpath = '//*[@id="reviewTab"]/div/div/div[2]/span/em'
 try:
-    for i in range(1, 38):
+    for i in range(29, 38):
         url = 'https://movie.naver.com/movie/sdb/browsing/bmovie.naver?open=2020&page={}'.format(i)
         titles = []
         reviews = []
@@ -68,7 +69,9 @@ try:
             except:
                 print('error')
         df_review_20 = pd.DataFrame({'title':titles, 'reviews':reviews})
-        df_review_20.to_csv('./crawling_data/reviews_{}_{}.csv'.format(2020, i))
+        df_review_20.to_csv(
+            './crawling_data/reviews_{}_{}.csv'.format(2020, i),
+            index=False)
 
 except:
     print('totally error')
